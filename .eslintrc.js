@@ -1,7 +1,6 @@
-const path = require('path');
-
 module.exports = {
-  extends: ['eslint:recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'prettier'],
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   parser: 'babel-eslint',
   env: {
     browser: true,
