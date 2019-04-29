@@ -102,11 +102,11 @@ function getCallbacks(carouselRef) {
   };
   const carouselMap = carouselsMap.get(carouselRef);
   if (carouselMap) {
-    for (const hookCallbacks of carouselMap.values()) {
+    carouselMap.forEach((hookCallbacks) => {
       for (const property in hookCallbacks) {
         callbacks[property].push(hookCallbacks[property]);
       }
-    }
+    });
   }
   return callbacks;
 }
