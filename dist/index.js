@@ -1,26 +1,28 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
 exports.useCarouselDots = useCarouselDots;
+exports["default"] = void 0;
 
-var _react = require('react');
+var _react = _interopRequireWildcard(require("react"));
 
-var _react2 = _interopRequireDefault(_react);
+var _composableCarousel = _interopRequireDefault(require("composable-carousel"));
 
-var _composableCarousel = require('composable-carousel');
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _composableCarousel2 = _interopRequireDefault(_composableCarousel);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _propTypes = require('prop-types');
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
 
-var _propTypes2 = _interopRequireDefault(_propTypes);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var carouselsMap = new Map();
 
@@ -32,44 +34,42 @@ function Carousel(_ref) {
       _onChange = _ref.onChange,
       carouselRef = _ref.carouselRef,
       children = _ref.children;
-
   var carouselSelectorRef = (0, _react.useRef)(null);
-
   (0, _react.useEffect)(function () {
     var callbacks = getCallbacks(carouselRef);
-    var carousel = (0, _composableCarousel2.default)({
+    var carousel = (0, _composableCarousel["default"])({
       selector: carouselSelectorRef.current,
       options: options,
       onInit: function onInit() {
         callbacks.onInit.forEach(function (cb) {
           return cb();
         });
+
         _onInit();
       },
       onChange: function onChange() {
         callbacks.onChange.forEach(function (cb) {
           return cb();
         });
+
         _onChange();
       },
-
       onResize: onResize
     });
     carouselRef.current = carousel;
     carouselRef.current.selector = carouselSelectorRef.current;
-
     return function () {
       carousel.destroy();
+
       if (carouselRef) {
         carouselRef.current = null;
       }
     };
   }, [carouselRef, _onInit, onResize, options]);
-  return _react2.default.createElement(
-    'div',
-    { className: className, ref: carouselSelectorRef },
-    children
-  );
+  return _react["default"].createElement("div", {
+    className: className,
+    ref: carouselSelectorRef
+  }, children);
 }
 
 Carousel.defaultProps = {
@@ -81,18 +81,18 @@ Carousel.defaultProps = {
   carouselRef: null,
   children: null
 };
-
 Carousel.propTypes = {
-  className: _propTypes2.default.string,
-  options: _propTypes2.default.objectOf(_propTypes2.default.any),
-  onInit: _propTypes2.default.func,
-  onResize: _propTypes2.default.func,
-  onChange: _propTypes2.default.func,
-  carouselRef: _propTypes2.default.objectOf(_propTypes2.default.object),
-  children: _propTypes2.default.arrayOf(_propTypes2.default.element)
+  className: _propTypes["default"].string,
+  options: _propTypes["default"].objectOf(_propTypes["default"].any),
+  onInit: _propTypes["default"].func,
+  onResize: _propTypes["default"].func,
+  onChange: _propTypes["default"].func,
+  carouselRef: _propTypes["default"].objectOf(_propTypes["default"].object),
+  children: _propTypes["default"].arrayOf(_propTypes["default"].element)
 };
+var _default = Carousel;
+exports["default"] = _default;
 
-exports.default = Carousel;
 function useCarouselDots(carouselRef) {
   var _useState = (0, _react.useState)(0),
       _useState2 = _slicedToArray(_useState, 2),
@@ -112,7 +112,6 @@ function useCarouselDots(carouselRef) {
       return setActiveDotIndex(carouselRef.current.dots.nrOfActiveDot());
     }
   });
-
   return {
     nrOfDots: nrOfDots,
     activeDotIndex: activeDotIndex,
@@ -124,9 +123,11 @@ function useCarouselDots(carouselRef) {
 
 function useCarouselCallbacks(carouselRef, callbacks) {
   var hookRef = (0, _react.useRef)(null);
+
   if (!carouselsMap.get(carouselRef)) {
     carouselsMap.set(carouselRef, new Map());
   }
+
   carouselsMap.get(carouselRef).set(hookRef, callbacks);
 }
 
@@ -136,6 +137,7 @@ function getCallbacks(carouselRef) {
     onChange: []
   };
   var carouselMap = carouselsMap.get(carouselRef);
+
   if (carouselMap) {
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -154,8 +156,8 @@ function getCallbacks(carouselRef) {
       _iteratorError = err;
     } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
         }
       } finally {
         if (_didIteratorError) {
@@ -164,5 +166,6 @@ function getCallbacks(carouselRef) {
       }
     }
   }
+
   return callbacks;
 }
