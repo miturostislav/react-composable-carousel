@@ -2,13 +2,13 @@
   "name": "react-composable-carousel",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "eslint": "eslint --fix src/*.js",
     "prettier": "prettier --write src/*.js",
     "pretty-quick": "pretty-quick --staged --pattern 'src/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src -d dist"
+    "build": "babel src -d ."
   },
   "author": "Mitu Rostislav",
   "license": "MIT",
